@@ -43,6 +43,9 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- END THEME LAYOUT STYLES -->
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link
+href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+	  rel="stylesheet" type="text/css" />
 </head>
 <!-- END HEAD -->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -740,9 +743,12 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script src="/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 	<script src="/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
 	<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script>
 		$(document).ready(function () {
 			$('#tblRecords').DataTable({
+				"responsive": true,
 				"language": {
 					"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json"
 				}
