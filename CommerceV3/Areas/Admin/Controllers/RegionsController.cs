@@ -49,7 +49,7 @@ namespace CommerceV3.Areas.Admin.Controllers
         // GET: Admin/Regions/Create
         public IActionResult Create()
         {
-            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Id");
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace CommerceV3.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Id", region.ParentRegionId);
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name", region.ParentRegionId);
             return View(region);
         }
 
@@ -83,7 +83,7 @@ namespace CommerceV3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Id", region.ParentRegionId);
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name", region.ParentRegionId);
             return View(region);
         }
 
@@ -119,7 +119,7 @@ namespace CommerceV3.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Id", region.ParentRegionId);
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name", region.ParentRegionId);
             return View(region);
         }
 

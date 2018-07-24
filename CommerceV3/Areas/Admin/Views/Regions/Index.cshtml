@@ -10,16 +10,16 @@
 <table id="tblRecords" class="table">
     <thead>
         <tr>
-            <th>
+            <th class="text-nowrap all">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.RegionType)
             </th>
-            <th>
+            <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.ParentRegion)
             </th>
-            <th></th>
+            <th class="text-nowrap all" data-orderable="false">Eylemler</th>
         </tr>
     </thead>
     <tbody>
@@ -32,12 +32,12 @@
                 @Html.DisplayFor(modelItem => item.RegionType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ParentRegion.Id)
+                @Html.DisplayFor(modelItem => item.ParentRegion.Name)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td class="text-nowrap">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-success">Düzenle</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-default">Detaylar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
             </td>
         </tr>
 }
