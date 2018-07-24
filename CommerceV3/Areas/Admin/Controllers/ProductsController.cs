@@ -50,9 +50,15 @@ namespace CommerceV3.Areas.Admin.Controllers
         // GET: Admin/Products/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id");
-            return View();
+            var product = new Product();
+            product.CreateDate = DateTime.Now;
+            product.CreatedBy = User.Identity.Name;
+            product.UpdateDate = DateTime.Now;
+            product.UpdatedBy = User.Identity.Name;
+
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name");
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
+            return View(product);
         }
 
         // POST: Admin/Products/Create
@@ -64,12 +70,17 @@ namespace CommerceV3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                product.CreateDate = DateTime.Now;
+                product.CreatedBy = User.Identity.Name;
+                product.UpdateDate = DateTime.Now;
+                product.UpdatedBy = User.Identity.Name;
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", product.SupplierId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
             return View(product);
         }
 
@@ -86,8 +97,8 @@ namespace CommerceV3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", product.SupplierId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
             return View(product);
         }
 
@@ -107,6 +118,8 @@ namespace CommerceV3.Areas.Admin.Controllers
             {
                 try
                 {
+                    product.UpdateDate = DateTime.Now;
+                    product.UpdatedBy = User.Identity.Name;
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
@@ -123,8 +136,8 @@ namespace CommerceV3.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Id", product.SupplierId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name", product.BrandId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
             return View(product);
         }
 
