@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Kullanıcılar</h2>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.Email</li>
+    }
+</ul>
+

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using CommerceV3.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CommerceV3.Models;
 
 namespace CommerceV3
 {
