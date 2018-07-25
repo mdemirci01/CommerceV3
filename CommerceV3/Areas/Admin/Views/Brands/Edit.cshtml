@@ -5,7 +5,7 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -14,8 +14,13 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                @if (!string.IsNullOrEmpty(Model.Logo))
+                {
+                    <img src="~/Uploads/@Model.Logo" width="150" /><br />
+                }
                 <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
+                <input asp-for="Logo" type="hidden" />
+                <input type="file" name="upload" class="form-control" />
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
             <div class="form-group">

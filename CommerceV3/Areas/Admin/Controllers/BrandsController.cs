@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using CommerceV3.Data;
 using CommerceV3.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CommerceV3.Areas.Admin.Controllers
 {
@@ -16,10 +19,11 @@ namespace CommerceV3.Areas.Admin.Controllers
     public class BrandsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public BrandsController(ApplicationDbContext context)
+        private readonly IHostingEnvironment environment;
+        public BrandsController(ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+            this.environment = environment;
         }
 
         // GET: Admin/Brands
@@ -57,10 +61,28 @@ namespace CommerceV3.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Logo")] Brand brand)
+        public async Task<IActionResult> Create([Bind("Id,Name,Logo")] Brand brand, IFormFile upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.Length > 0)
+                {
+                    // upload işlemi burada yapılır
+                    var rnd = new Random();
+                    var fileName = Path.GetFileNameWithoutExtension(upload.FileName) + rnd.Next(1000).ToString() + Path.GetExtension(upload.FileName);
+                    var path = Path.Combine(environment.WebRootPath, "Uploads");
+                    var filePath = Path.Combine(path, fileName);
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        upload.CopyTo(stream);
+                    }
+                    brand.Logo = fileName;
+                }
                 _context.Add(brand);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,7 +111,7 @@ namespace CommerceV3.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Logo")] Brand brand)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Logo")] Brand brand, IFormFile upload)
         {
             if (id != brand.Id)
             {
@@ -100,6 +122,24 @@ namespace CommerceV3.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (upload != null && upload.Length > 0)
+                    {
+                        // upload işlemi burada yapılır
+                        var rnd = new Random();
+                        var fileName = Path.GetFileNameWithoutExtension(upload.FileName) + rnd.Next(1000).ToString() + Path.GetExtension(upload.FileName);
+                        var path = Path.Combine(environment.WebRootPath, "Uploads");
+                        var filePath = Path.Combine(path, fileName);
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            upload.CopyTo(stream);
+                        }
+                        brand.Logo = fileName;
+                    }
                     _context.Update(brand);
                     await _context.SaveChangesAsync();
                 }
