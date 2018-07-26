@@ -73,7 +73,7 @@ namespace CommerceV3.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Slug,Description,OldPrice,Price,Quantity,IsInStock,IsPublished,IsNew,ShippingPriceCityWide,ShippingPriceCountryWide,ShippingPriceWorldWide,SupplierId,BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate")] Product product, IFormFile upload)
+        public async Task<IActionResult> Create([Bind("Id,Name,Slug,Description,OldPrice,Price,Quantity,IsInStock,IsPublished,IsNew,ShippingPriceCityWide,ShippingPriceCountryWide,ShippingPriceWorldWide,SupplierId,BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate,Photo")] Product product, IFormFile upload)
         {
             if (ModelState.IsValid)
             {
@@ -132,7 +132,7 @@ namespace CommerceV3.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Slug,Description,OldPrice,Price,Quantity,IsInStock,IsPublished,IsNew,ShippingPriceCityWide,ShippingPriceCountryWide,ShippingPriceWorldWide,SupplierId,BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate")] Product product)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Slug,Description,OldPrice,Price,Quantity,IsInStock,IsPublished,IsNew,ShippingPriceCityWide,ShippingPriceCountryWide,ShippingPriceWorldWide,SupplierId,BrandId,CreatedBy,CreateDate,UpdatedBy,UpdateDate,Photo")] Product product, IFormFile upload)
         {
             if (id != product.Id)
             {
@@ -143,6 +143,24 @@ namespace CommerceV3.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (upload != null && upload.Length > 0)
+                    {
+                        // upload işlemi burada yapılır
+                        var rnd = new Random();
+                        var fileName = Path.GetFileNameWithoutExtension(upload.FileName) + rnd.Next(1000).ToString() + Path.GetExtension(upload.FileName);
+                        var path = Path.Combine(environment.WebRootPath, "Uploads");
+                        var filePath = Path.Combine(path, fileName);
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            upload.CopyTo(stream);
+                        }
+                        product.Photo = fileName;
+                    }
                     product.UpdateDate = DateTime.Now;
                     product.UpdatedBy = User.Identity.Name;
                     _context.Update(product);
