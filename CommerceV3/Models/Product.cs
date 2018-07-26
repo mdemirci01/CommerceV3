@@ -14,6 +14,11 @@ namespace CommerceV3.Models
         public string Name { get; set; }
         [Display(Name = "Bağlantı")]
         public string Slug { get; set; }
+
+        [StringLength(200)]
+        [Display(Name = "Fotoğraf")]
+        public string Photo { get; set; }
+
         [Display(Name = "Açıklama")]
         public string Description { get; set; }
         [Display(Name = "Eski Fiyat")]
