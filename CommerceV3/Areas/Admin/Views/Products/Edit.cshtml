@@ -19,7 +19,8 @@
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @if (!string.IsNullOrEmpty(Model.Photo)) { 
+                @if (!string.IsNullOrEmpty(Model.Photo))
+                {
                     <img src="~/Uploads/@Model.Photo" width="150" /><br />
                 }
                 <label asp-for="Photo" class="control-label"></label>
@@ -46,6 +47,13 @@
                 <label asp-for="Quantity" class="control-label"></label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                    <option value="">Kategori seçiniz</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div>
