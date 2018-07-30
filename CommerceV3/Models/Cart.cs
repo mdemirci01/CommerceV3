@@ -14,14 +14,17 @@ namespace CommerceV3.Models
 		}
 		public string Id { get; set; }
         [Display(Name = "Sahip")]
-		public string Owner { get; set; }
+        [StringLength(200)]
+        public string Owner { get; set; }
 		public virtual ICollection<CartItem> CartItems { get; set; }
         [Display(Name = "Oluşturan Kullanıcı")]
-		public string CreatedBy { get; set; }
+        [StringLength(200)]
+        public string CreatedBy { get; set; }
         [Display(Name = "Oluşturulma Tarihi")]
 		public DateTime CreateDate { get; set; }
         [Display(Name = "Güncelleyen Kullanıcı")]
-		public string UpdatedBy { get; set; }
+        [StringLength(200)]
+        public string UpdatedBy { get; set; }
         [Display(Name = "Güncellenme Tarihi")]
 		public DateTime UpdateDate { get; set; }
 

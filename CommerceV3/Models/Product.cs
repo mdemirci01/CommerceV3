@@ -11,6 +11,7 @@ namespace CommerceV3.Models
     {
 		public string Id { get; set; }
         [Display(Name = "Ürün Adı")]
+        [StringLength(100)]
         public string Name { get; set; }
         [Display(Name = "Bağlantı")]
         public string Slug { get; set; }
@@ -51,12 +52,18 @@ namespace CommerceV3.Models
         [Display(Name = "Marka")]
         public Brand Brand { get; set; }
 
-		public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        [Display(Name = "Kategori")]
+        public string CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        [Display(Name = "Kategori")]
+        public Category Category { get; set; }
 
+		[StringLength(200)]
         [Display(Name = "Oluşturulan Kullanıcı")]
         public string CreatedBy { get; set; }
         [Display(Name = "Oluşturulma Tarihi")]
         public DateTime CreateDate { get; set; }
+        [StringLength(200)]
         [Display(Name = "Güncelleyen Kullanıcı")]
         public string UpdatedBy { get; set; }
         [Display(Name = "Güncellenme Tarihi")]

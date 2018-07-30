@@ -4,14 +4,16 @@ using CommerceV3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommerceV3.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180730131715_AddStringLengths")]
+    partial class AddStringLengths
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,8 +146,6 @@ namespace CommerceV3.Data.Migrations
 
                     b.Property<string>("BrandId");
 
-                    b.Property<string>("CategoryId");
-
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedBy")
@@ -190,11 +190,22 @@ namespace CommerceV3.Data.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("CommerceV3.Models.ProductCategory", b =>
+                {
+                    b.Property<string>("ProductId");
+
+                    b.Property<string>("CategoryId");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("CommerceV3.Models.Region", b =>
@@ -462,13 +473,22 @@ namespace CommerceV3.Data.Migrations
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
-                    b.HasOne("CommerceV3.Models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("CommerceV3.Models.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId");
+                });
+
+            modelBuilder.Entity("CommerceV3.Models.ProductCategory", b =>
+                {
+                    b.HasOne("CommerceV3.Models.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CommerceV3.Models.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CommerceV3.Models.Region", b =>
